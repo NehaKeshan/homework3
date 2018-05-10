@@ -319,9 +319,9 @@ class ChatBotModel:
             setattr(tf.contrib.rnn.MultiRNNCell, '__deepcopy__', lambda self, _: self)
             return tf.contrib.legacy_seq2seq.embedding_attention_seq2seq(
                 encoder_inputs, decoder_inputs, self.cell,
-                num_encoder_symbols=config.ENC_VOCAB,
-                num_decoder_symbols=config.DEC_VOCAB,
-                embedding_size=config.HIDDEN_SIZE,
+                num_encoder_symbols=ENC_VOCAB,
+                num_decoder_symbols=DEC_VOCAB,
+                embedding_size=HIDDEN_SIZE,
                 output_projection=self.output_projection,
                 feed_previous=do_decode)
 
@@ -487,7 +487,7 @@ def chat():
         sess.run(tf.global_variables_initializer())
         _check_restore_parameters(sess, saver)
         # Decode from standard input.
-        max_length = config.BUCKETS[-1][0]
+        max_length = BUCKETS[-1][0]
         while True:
             line = _get_user_input()
             if len(line) > 0 and line[-1] == '\n':
