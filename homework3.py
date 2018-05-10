@@ -20,7 +20,7 @@ import os
 from nltk.translate.bleu_score import SmoothingFunction
 import nltk
 import time
-
+from nltk.translate.bleu_score import sentence_bleu
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 # THRESHOLD = 1
@@ -497,7 +497,7 @@ def chat():
             if line == '':
                 break
             # Get token-ids for the input sentence.
-            token_ids = data.sentence2id(enc_vocab, str(line))
+            token_ids = sentence2id(enc_vocab, str(line))
             if (len(token_ids) > max_length):
                 print('Max length I can handle is:', max_length)
                 line = _get_user_input()
@@ -505,7 +505,7 @@ def chat():
             # Which bucket does it belong to?
             bucket_id = _find_right_bucket(len(token_ids))
             # Get a 1-element batch to feed the sentence to the model.
-            encoder_inputs, decoder_inputs, decoder_masks = data.get_batch([(token_ids, [])],
+            encoder_inputs, decoder_inputs, decoder_masks = get_batch([(token_ids, [])],
                                                                             bucket_id,
                                                                             batch_size=1)
             # Get output logits for the sentence.
@@ -514,8 +514,24 @@ def chat():
             response = _construct_response(output_logits, inv_dec_vocab)
             print(response)
 
+def _load_test_data():
+    eng_test_ids = load_test_data('tst2012.en.txt')
+    vit_test_ids = load_test_data('tst2012.vi.txt')
+    return eng_test_ids,vit_test_ids
 
-def test():
+def load_test_data(filename, max_training_size=None):
+    encode_file = filename
+    # encode = encode_file.readline()
+    # print(encode)
+    # print(basic_tokenizer(encode))
+    data_buckets = [[] for _ in BUCKETS]
+    data = []
+    with open(encode_file, 'r',encoding='utf-8') as f:
+        for line in f.readlines():
+            data.append(line)
+    return data
+
+def test1():
 
     _, enc_vocab = load_vocab('vocab.en')
     inv_dec_vocab, _ = load_vocab('vocab.vi')
@@ -579,6 +595,43 @@ def test():
             i = i + 1
     print("final blue score", np.mean(BLUE_score))
 
+
+def test():
+    _, enc_vocab = load_vocab('vocab.enc')
+    inv_dec_vocab, _ = load_vocab('vocab.dec')
+    eng_test, vit_test = _load_test_data()
+
+    model = ChatBotModel(True, batch_size=1)
+    model.build_graph()
+
+    saver = tf.train.Saver()
+
+    with tf.Session() as sess:
+        sess.run(tf.global_variables_initializer())
+        _check_restore_parameters(sess, saver)
+        bleu = []
+
+        for i in range(10):
+            token_ids = sentence2id(enc_vocab, str(eng_test[i]))
+            target_ids = vit_test[i]
+            # Which bucket does it belong to?
+            bucket_id = _find_right_bucket(len(token_ids))
+            # Get a 1-element batch to feed the sentence to the model.
+            encoder_inputs, decoder_inputs, decoder_masks = get_batch([(token_ids, [])],
+                                                                           bucket_id,
+                                                                           batch_size=1)
+            # Get output logits for the sentence.
+            _, _, output_logits = run_step(sess, model, encoder_inputs, decoder_inputs,
+                                           decoder_masks, bucket_id, True)
+            response = _construct_response(output_logits, inv_dec_vocab)
+            sys.stdout.buffer.write(response.encode('utf8'))
+            print()
+            sys.stdout.buffer.write(target_ids.encode('utf8'))
+            print()
+            bleu.append(sentence_bleu([target_ids.split()], response.split(),
+                                      smoothing_function=nltk.translate.bleu_score.SmoothingFunction().method1))
+
+        print(np.mean(bleu))
 
 def _get_user_input():
     """ Get user's input, which will be transformed into encoder input later """
