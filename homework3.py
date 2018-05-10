@@ -167,7 +167,7 @@ def _get_buckets():
     train_buckets_scale is the inverval that'll help us
     choose a random bucket later on.
     """
-    test_buckets = load_data('test_ids.en', 'test_ids.vi')
+    test_buckets = load_data('tst2012_ids.en', 'tst2012_ids.vi')
     data_buckets = load_data('train_ids.en', 'train_ids.vi')
     train_bucket_sizes = [len(data_buckets[b]) for b in range(len(BUCKETS))]
     print("Number of samples in each bucket:\n", train_bucket_sizes)
