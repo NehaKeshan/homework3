@@ -267,7 +267,7 @@ def _construct_response(output_logits, inv_dec_vocab):
 
 
 class ChatBotModel:
-    def _init_(self, forward_only, batch_size):
+    def __init__(self, forward_only, batch_size):
         """forward_only: if set, we do not construct the backward pass in the model.
         """
         print('Initialize new model')
