@@ -516,8 +516,8 @@ def chat():
             print(response)
 
 def _load_test_data():
-    eng_test_ids = load_test_data('tst2012.en.txt')
-    vit_test_ids = load_test_data('tst2012.vi.txt')
+    eng_test_ids = load_test_data('tst2012_ids.en')
+    vit_test_ids = load_test_data('tst2012_ids.vi')
     return eng_test_ids,vit_test_ids
 
 def load_test_data(filename, max_training_size=None):
@@ -532,7 +532,7 @@ def load_test_data(filename, max_training_size=None):
             data.append(line)
     return data
 
-def test():
+def test1():
 
     _, enc_vocab = load_vocab('vocab.en')
     inv_dec_vocab, _ = load_vocab('vocab.vi')
@@ -597,7 +597,7 @@ def test():
     print("final blue score", np.mean(BLUE_score))
 
 
-def test1():
+def test():
     _, enc_vocab = load_vocab('vocab.en')
     inv_dec_vocab, _ = load_vocab('vocab.vi')
     eng_test, vit_test = _load_test_data()
