@@ -533,74 +533,10 @@ def load_test_data(filename, max_training_size=None):
     return data
 
 def test():
-
-    _, enc_vocab = load_vocab('vocab.en')
-    inv_dec_vocab, _ = load_vocab('vocab.vi')
-
-    en_lines = []
-    vi_lines = []
-    BLUE_score = []
-
-    with open('tst2012.en.txt', 'r', encoding='utf-8') as f:
-        en_lines = f.readlines()
-
-    with open('tst2012.vi.txt', 'r', encoding='utf-8') as f:
-        vi_lines = f.readlines()
-
-    if (len(en_lines) != len(vi_lines)):
-        "ERROR Line difference"
-        return
-
-    model = ChatBotModel(True, batch_size=1)
-    model.build_graph()
-
-    saver = tf.train.Saver()
-    print("Testing with blue score")
-    with tf.Session() as sess:
-        # tf.reset_default_graph()
-        sess.run(tf.global_variables_initializer())
-        # saver.restore(sess, 'model/NMT')
-        _check_restore_parameters(sess, saver)
-        # Decode from standard input.
-        max_length = BUCKETS[-1][0]
-        i = 0
-        while i < len(en_lines) and i < len(vi_lines):
-            line = en_lines[i]
-            # Get token-ids for the input sentence.
-            token_ids = sentence2id(enc_vocab, str(line))
-            if len(token_ids) > max_length:
-                print("MAX LENGTH READ ERROR")
-                break
-            # Which bucket does it belong to?
-            bucket_id = _find_right_bucket(len(token_ids))
-            # Get a 1-element batch to feed the sentence to the model.
-            encoder_inputs, decoder_inputs, decoder_masks = get_batch([(token_ids, [])],
-                                                                      bucket_id,
-                                                                      batch_size=1)
-            # Get output logits for the sentence.
-            _, _, output_logits = run_step(sess, model, encoder_inputs, decoder_inputs,
-                                           decoder_masks, bucket_id, True)
-            response = _construct_response(output_logits, inv_dec_vocab)
-
-            # calculate BLUE score and append
-            print(response)
-            sfun = SmoothingFunction()
-            print([vi_lines[i].split()])
-            print(response.split())
-            BLUE_score.append(nltk.translate.bleu_score.sentence_bleu([vi_lines[i].split()], response.split(),
-                                                                      smoothing_function=sfun.method1))
-            print(BLUE_score)
-            if i % 10000 == 0:
-                #print(BLUE_score)
-                print(i, 'mean', np.mean(BLUE_score))
-            i = i + 1
-    print("final blue score", np.mean(BLUE_score))
-
-
-def test1():
-    _, enc_vocab = load_vocab('vocab.en')
-    inv_dec_vocab, _ = load_vocab('vocab.vi')
-    eng_test, vit_test = _load_test_data()
+    _, enc_vocab = load_vocab('vocab.enc')
+    inv_dec_vocab, _ = load_vocab('vocab.dec')
+    eng_test = load_test_data('tst2013.en')
+    vit_test = load_test_data('tst2013.vi')
 
     model = ChatBotModel(True, batch_size=1)
     model.build_graph()
@@ -614,7 +550,6 @@ def test1():
 
         for i in range(10):
             token_ids = sentence2id(enc_vocab, str(eng_test[i]))
-            print(len(token_ids))
             target_ids = vit_test[i]
             # Which bucket does it belong to?
             bucket_id = _find_right_bucket(len(token_ids))
@@ -661,7 +596,7 @@ print(ckpt)
 ############################################
 ########Your main Function here#############
 
-process_data()
+#process_data()
 if sys.argv[1] == "train":
     train()
 elif sys.argv[1] == "test":
