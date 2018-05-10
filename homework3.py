@@ -100,12 +100,10 @@ def build_vocab(filename, normalize_digits=True):
 
 def process_data():
     print("Processing data")
-    build_vocab("train.en")
-    build_vocab("train.vi")
+    build_vocab("train.en.txt")
+    build_vocab("train.vi.txt")
     token2id('train', 'en')
     token2id('train', 'vi')
-    token2id('tst2013', 'en')
-    token2id('tst2013', 'vi')
 
 
 def load_vocab(vocab_path):
@@ -122,7 +120,7 @@ def token2id(data, mode):
     """ Convert all the tokens in the data into their corresponding
     index in the vocabulary. """
     vocab_path = 'vocab.' + mode
-    in_path = data + '.' + mode
+    in_path = data + '.' + mode + ".txt"
     out_path = data + '_ids.' + mode
 
     _, vocab = load_vocab(vocab_path)
@@ -602,20 +600,6 @@ print(ckpt)
 
 process_data()
 
-train()
-
-import chardet
-chardet.detect(open("train.en", "rb").read())
-
-with open('train.vi', 'r', encoding="utf-8") as f:
-
-    print(len(f.readlines()))
-
-with open('train.en', 'r', encoding="utf-8") as f:
-
-    print(len(f.readlines()))
-
-test()
 
 ############################################
 ########Your main Function here#############
