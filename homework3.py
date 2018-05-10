@@ -572,6 +572,7 @@ def test():
             # print(response.split())
             BLUE_score.append(nltk.translate.bleu_score.sentence_bleu([vi_lines[i].split()], response.split(),
                                                                       smoothing_function=sfun.method1))
+            print(BLUE_score)
             if i % 10000 == 0:
                 #print(BLUE_score)
                 print(i, 'mean', np.mean(BLUE_score))
