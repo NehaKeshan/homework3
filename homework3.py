@@ -315,13 +315,13 @@ class ChatBotModel:
         start = time.time()
 
         def _seq2seq_f(encoder_inputs, decoder_inputs, do_decode):
-            setattr(tf.contrib.rnn.GRUCell, '_deepcopy_', lambda self, _: self)
-            setattr(tf.contrib.rnn.MultiRNNCell, '_deepcopy_', lambda self, _: self)
+            setattr(tf.contrib.rnn.GRUCell, '__deepcopy__', lambda self, _: self)
+            setattr(tf.contrib.rnn.MultiRNNCell, '__deepcopy__', lambda self, _: self)
             return tf.contrib.legacy_seq2seq.embedding_attention_seq2seq(
                 encoder_inputs, decoder_inputs, self.cell,
-                num_encoder_symbols=ENC_VOCAB,
-                num_decoder_symbols=DEC_VOCAB,
-                embedding_size=HIDDEN_SIZE,
+                num_encoder_symbols=config.ENC_VOCAB,
+                num_decoder_symbols=config.DEC_VOCAB,
+                embedding_size=config.HIDDEN_SIZE,
                 output_projection=self.output_projection,
                 feed_previous=do_decode)
 
