@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2863b8ed-c449-4073-8241-8ccbc00c8a15" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/homework3.py" afterPath="$PROJECT_DIR$/homework3.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,8 +17,8 @@
       <file leaf-file-name="homework3.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/homework3.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="533" column="0" lean-forward="true" selection-start-line="533" selection-start-column="0" selection-end-line="533" selection-end-column="0" />
+            <state relative-caret-position="343">
+              <caret line="465" column="39" lean-forward="true" selection-start-line="465" selection-start-column="39" selection-end-line="465" selection-end-column="39" />
               <folding>
                 <element signature="e#369#379#0" expanded="true" />
               </folding>
@@ -50,6 +51,8 @@
       <find>_pad</find>
       <find>sentence_bleu</find>
       <find>_find_right_bucket</find>
+      <find>print</find>
+      <find>iteration</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -217,8 +220,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/homework3.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="533" column="0" lean-forward="true" selection-start-line="533" selection-start-column="0" selection-end-line="533" selection-end-column="0" />
+        <state relative-caret-position="343">
+          <caret line="465" column="39" lean-forward="true" selection-start-line="465" selection-start-column="39" selection-end-line="465" selection-end-column="39" />
           <folding>
             <element signature="e#369#379#0" expanded="true" />
           </folding>

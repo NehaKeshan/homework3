@@ -459,8 +459,8 @@ def train():
             _, step_loss, _ = run_step(sess, model, encoder_inputs, decoder_inputs, decoder_masks, bucket_id, False)
             total_loss += step_loss
 
-            #if iteration % print_step == 0:
-            print('loss {} : {}'.format(iteration, step_loss))
+            if iteration % 100 == 0:
+                print('loss {} : {}'.format(iteration, step_loss))
             start = time.time()
             total_loss = 0
             # saver.save(sess, 'model/NMT', global_step=model.global_step)
