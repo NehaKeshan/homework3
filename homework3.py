@@ -613,6 +613,7 @@ def test():
 
         for i in range(10):
             token_ids = sentence2id(enc_vocab, str(eng_test[i]))
+            print(len(token_ids))
             target_ids = vit_test[i]
             # Which bucket does it belong to?
             bucket_id = _find_right_bucket(len(token_ids))
