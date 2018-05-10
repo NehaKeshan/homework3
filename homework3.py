@@ -524,10 +524,10 @@ def test():
     vi_lines = []
     BLUE_score = []
 
-    with open('tst2012.en', 'r', encoding='utf-8') as f:
+    with open('tst2012.en.txt', 'r', encoding='utf-8') as f:
         en_lines = f.readlines()
 
-    with open('tst2012.vi', 'r', encoding='utf-8') as f:
+    with open('tst2012.vi.txt', 'r', encoding='utf-8') as f:
         vi_lines = f.readlines()
 
     if (len(en_lines) != len(vi_lines)):
