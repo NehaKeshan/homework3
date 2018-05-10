@@ -475,10 +475,8 @@ def train():
                 saver.save(sess, 'model/NMT', global_step=model.global_step)
         saver.save(sess, 'model/NMT', global_step=model.global_step)
 def chat():
-    """ in test mode, we don't to create the backward path
-    """
-    _, enc_vocab = load_vocab('vocab.en')
-    inv_dec_vocab, _ = load_vocab('vocab.vi')
+    _, enc_vocab = load_vocab('vocab.enc')
+    inv_dec_vocab, _ = load_vocab('vocab.dec')
 
     model = ChatBotModel(True, batch_size=1)
     model.build_graph()
@@ -486,33 +484,26 @@ def chat():
     saver = tf.train.Saver()
 
     with tf.Session() as sess:
-        sess.run(tf.global_variables_initializer())
-        _check_restore_parameters(sess, saver)
-        # Decode from standard input.
-        max_length = BUCKETS[-1][0]
-        while True:
-            line = _get_user_input()
-            if len(line) > 0 and line[-1] == '\n':
-                line = line[:-1]
-            if line == '':
-                break
-            # Get token-ids for the input sentence.
-            token_ids = sentence2id(enc_vocab, str(line))
-            if (len(token_ids) > max_length):
-                print('Max length I can handle is:', max_length)
-                line = _get_user_input()
-                continue
-            # Which bucket does it belong to?
-            bucket_id = _find_right_bucket(len(token_ids))
-            # Get a 1-element batch to feed the sentence to the model.
-            encoder_inputs, decoder_inputs, decoder_masks = get_batch([(token_ids, [])],
-                                                                            bucket_id,
-                                                                            batch_size=1)
-            # Get output logits for the sentence.
-            _, _, output_logits = run_step(sess, model, encoder_inputs, decoder_inputs,
-                                           decoder_masks, bucket_id, True)
-            response = _construct_response(output_logits, inv_dec_vocab)
-            print(response)
+          sess.run(tf.global_variables_initializer())
+          _check_restore_parameters(sess, saver)
+          # Decode from standard input.
+          max_length = BUCKETS[-1][0]
+          line = _get_user_input()
+          if len(line) > 0 and line[-1] == '\n':
+              line = line[:-1]
+          # Get token-ids for the input sentence.
+          token_ids = sentence2id(enc_vocab, str(line))
+          if (len(token_ids) > max_length):
+              print('Max length I can handle is:', max_length)
+          else:
+              bucket_id = _find_right_bucket(len(token_ids))
+              encoder_inputs, decoder_inputs, decoder_masks = get_batch([(token_ids, [])],
+                                                                        bucket_id,
+                                                                        batch_size=1)
+              _, _, output_logits = run_step(sess, model, encoder_inputs, decoder_inputs,
+                                             decoder_masks, bucket_id, True)
+              response = _construct_response(output_logits, inv_dec_vocab)
+              sys.stdout.buffer.write(response.encode('utf8'))
 
 def _load_test_data():
     eng_test_ids = load_test_data('tst2012.en.txt')
