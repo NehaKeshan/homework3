@@ -186,7 +186,7 @@ def _get_random_bucket(train_buckets_scale):
 
 
 def pad_input(input, size):
-    return input_ + [PAD_ID] * (size - len(input_))
+    return input + [PAD_ID] * (size - len(input))
 
 
 def _reshape_batch(inputs, size, batch_size):
@@ -249,6 +249,7 @@ def _assert_lengths(encoder_size, decoder_size, encoder_inputs, decoder_inputs, 
 
 def _find_right_bucket(length):
     """ Find the proper bucket for an encoder input based on its length """
+    print([b for b in range(len(BUCKETS), length)])
     return min([b for b in range(len(BUCKETS)) if BUCKETS[b][0] >= length])
 
 
@@ -531,7 +532,7 @@ def load_test_data(filename, max_training_size=None):
             data.append(line)
     return data
 
-def test1():
+def test():
 
     _, enc_vocab = load_vocab('vocab.en')
     inv_dec_vocab, _ = load_vocab('vocab.vi')
@@ -582,10 +583,10 @@ def test1():
             response = _construct_response(output_logits, inv_dec_vocab)
 
             # calculate BLUE score and append
-            #print(response)
+            print(response)
             sfun = SmoothingFunction()
-            # print([vi_lines[i].split()])
-            # print(response.split())
+            print([vi_lines[i].split()])
+            print(response.split())
             BLUE_score.append(nltk.translate.bleu_score.sentence_bleu([vi_lines[i].split()], response.split(),
                                                                       smoothing_function=sfun.method1))
             print(BLUE_score)
@@ -596,7 +597,7 @@ def test1():
     print("final blue score", np.mean(BLUE_score))
 
 
-def test():
+def test1():
     _, enc_vocab = load_vocab('vocab.en')
     inv_dec_vocab, _ = load_vocab('vocab.vi')
     eng_test, vit_test = _load_test_data()
