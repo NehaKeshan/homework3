@@ -249,7 +249,6 @@ def _assert_lengths(encoder_size, decoder_size, encoder_inputs, decoder_inputs, 
 
 def _find_right_bucket(length):
     """ Find the proper bucket for an encoder input based on its length """
-    print([b for b in range(len(BUCKETS), length)])
     return min([b for b in range(len(BUCKETS)) if BUCKETS[b][0] >= length])
 
 
@@ -562,9 +561,6 @@ def test():
                                            decoder_masks, bucket_id, True)
             response = _construct_response(output_logits, inv_dec_vocab)
             sys.stdout.buffer.write(response.encode('utf8'))
-            print()
-            sys.stdout.buffer.write(target_ids.encode('utf8'))
-            print()
             bleu.append(sentence_bleu([target_ids.split()], response.split(),
                                       smoothing_function=nltk.translate.bleu_score.SmoothingFunction().method1))
 
