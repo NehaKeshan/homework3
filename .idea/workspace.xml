@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2863b8ed-c449-4073-8241-8ccbc00c8a15" name="Default" comment="" />
+    <list default="true" id="2863b8ed-c449-4073-8241-8ccbc00c8a15" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/homework3.py" afterPath="$PROJECT_DIR$/homework3.py" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,8 +16,8 @@
       <file leaf-file-name="homework3.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/homework3.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="475" column="39" lean-forward="true" selection-start-line="475" selection-start-column="39" selection-end-line="475" selection-end-column="39" />
+            <state relative-caret-position="365">
+              <caret line="609" column="4" lean-forward="false" selection-start-line="609" selection-start-column="4" selection-end-line="609" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -165,8 +167,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/homework3.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="475" column="39" lean-forward="true" selection-start-line="475" selection-start-column="39" selection-end-line="475" selection-end-column="39" />
+        <state relative-caret-position="365">
+          <caret line="609" column="4" lean-forward="false" selection-start-line="609" selection-start-column="4" selection-end-line="609" selection-end-column="4" />
           <folding />
         </state>
       </provider>

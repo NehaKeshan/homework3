@@ -126,7 +126,7 @@ def token2id(data, mode):
     _, vocab = load_vocab(vocab_path)
     in_file = open(in_path,  'r', encoding = 'utf-8')
     out_file = open(out_path,'w', encoding = 'utf-8')
-    
+
     lines = in_file.read().splitlines()
     for line in lines:
         if mode == 'vi': # we only care about '<s>' and </s> in encoder
@@ -371,7 +371,7 @@ class ChatBotModel:
                     start = time.time()
 
     def build_graph(self):
-        # tf.reset_default_graph() 
+        # tf.reset_default_graph()
         self._create_placeholders()
         self._inference()
         self._create_loss()
@@ -501,7 +501,7 @@ def chat():
             # Which bucket does it belong to?
             bucket_id = _find_right_bucket(len(token_ids))
             # Get a 1-element batch to feed the sentence to the model.
-            encoder_inputs, decoder_inputs, decoder_masks = data.get_batch([(token_ids, [])], 
+            encoder_inputs, decoder_inputs, decoder_masks = data.get_batch([(token_ids, [])],
                                                                             bucket_id,
                                                                             batch_size=1)
             # Get output logits for the sentence.
@@ -509,10 +509,10 @@ def chat():
                                            decoder_masks, bucket_id, True)
             response = _construct_response(output_logits, inv_dec_vocab)
             print(response)
-        
+
 
 def test():
-    
+
     _, enc_vocab = load_vocab('vocab.en')
     inv_dec_vocab, _ = load_vocab('vocab.vi')
 
@@ -560,7 +560,7 @@ def test():
             _, _, output_logits = run_step(sess, model, encoder_inputs, decoder_inputs,
                                            decoder_masks, bucket_id, True)
             response = _construct_response(output_logits, inv_dec_vocab)
- 
+
             # calculate BLUE score and append
             #print(response)
             sfun = SmoothingFunction()
@@ -598,16 +598,13 @@ ckpt = tf.train.get_checkpoint_state('model')
 print(ckpt)
 
 
-process_data()
-
-
 ############################################
 ########Your main Function here#############
-if _name_ == "_main_":
-    process_data()
-    if sys.argv[1] == "train":
-        train()
-    elif sys.argv[1] == "test":
-        test()
-    elif sys.argv[1] == "translate":
-        chat()
+
+process_data()
+if sys.argv[1] == "train":
+    train()
+elif sys.argv[1] == "test":
+    test()
+elif sys.argv[1] == "translate":
+    chat()
