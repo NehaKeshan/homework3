@@ -597,8 +597,8 @@ def test1():
 
 
 def test():
-    _, enc_vocab = load_vocab('vocab.enc')
-    inv_dec_vocab, _ = load_vocab('vocab.dec')
+    _, enc_vocab = load_vocab('vocab.en')
+    inv_dec_vocab, _ = load_vocab('vocab.vi')
     eng_test, vit_test = _load_test_data()
 
     model = ChatBotModel(True, batch_size=1)
