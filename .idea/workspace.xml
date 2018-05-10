@@ -16,8 +16,8 @@
       <file leaf-file-name="homework3.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/homework3.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="609" column="4" lean-forward="false" selection-start-line="609" selection-start-column="4" selection-end-line="609" selection-end-column="4" />
+            <state relative-caret-position="202">
+              <caret line="167" column="54" lean-forward="false" selection-start-line="167" selection-start-column="51" selection-end-line="167" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -29,6 +29,7 @@
     <findStrings>
       <find>token2id</find>
       <find>vocab.en</find>
+      <find>2013</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -167,8 +168,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/homework3.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="609" column="4" lean-forward="false" selection-start-line="609" selection-start-column="4" selection-end-line="609" selection-end-column="4" />
+        <state relative-caret-position="202">
+          <caret line="167" column="54" lean-forward="false" selection-start-line="167" selection-start-column="51" selection-end-line="167" selection-end-column="54" />
           <folding />
         </state>
       </provider>
