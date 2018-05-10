@@ -200,6 +200,9 @@ def _reshape_batch(inputs, size, batch_size):
     return batch_inputs
 
 
+def _pad_input(input_, size):
+    return input_ + [PAD_ID] * (size - len(input_))
+
 def get_batch(data_bucket, bucket_id, batch_size=1):
     """ Return one batch to feed into the model """
     # only pad to the max length of the bucket
