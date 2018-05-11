@@ -103,8 +103,8 @@ def process_data():
     build_vocab("train.vi.txt")
     token2id('train', 'en')
     token2id('train', 'vi')
-    token2id('tst2012', 'en')
-    token2id('tst2012', 'vi')
+    token2id('tst2013', 'en')
+    token2id('tst2013', 'vi')
 
 
 def load_vocab(vocab_path):
@@ -166,8 +166,8 @@ def _get_buckets():
     train_buckets_scale is the inverval that'll help us
     choose a random bucket later on.
     """
-    test_buckets = load_data('tst2013_ids.en.txt', 'tst2013_ids.vi.txt')
-    data_buckets = load_data('train_ids.en.txt', 'train_ids.vi.txt')
+    test_buckets = load_data('tst2013_ids.en', 'tst2013_ids.vi')
+    data_buckets = load_data('train_ids.en', 'train_ids.vi')
     train_bucket_sizes = [len(data_buckets[b]) for b in range(len(BUCKETS))]
     print("Number of samples in each bucket:\n", train_bucket_sizes)
     train_total_size = sum(train_bucket_sizes)
