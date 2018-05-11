@@ -166,8 +166,8 @@ def _get_buckets():
     train_buckets_scale is the inverval that'll help us
     choose a random bucket later on.
     """
-    test_buckets = load_data('tst2012_ids.en', 'tst2012_ids.vi')
-    data_buckets = load_data('train_ids.en', 'train_ids.vi')
+    test_buckets = load_data('tst2013_ids.en.txt', 'tst2013_ids.vi.txt')
+    data_buckets = load_data('train_ids.en.txt', 'train_ids.vi.txt')
     train_bucket_sizes = [len(data_buckets[b]) for b in range(len(BUCKETS))]
     print("Number of samples in each bucket:\n", train_bucket_sizes)
     train_total_size = sum(train_bucket_sizes)
@@ -474,6 +474,36 @@ def train():
                 print("SAVING model")
                 saver.save(sess, 'model/NMT', global_step=model.global_step)
         saver.save(sess, 'model/NMT', global_step=model.global_step)
+
+def train1(self, data_buckets, train_buckets_scale):
+    """ Train the bot """
+    with tf.Session() as sess:
+     sess.run(tf.global_variables_initializer())
+    _check_restore_parameters(sess, saver)
+
+    iteration = model.global_step.eval()
+    total_loss = 0
+
+    for i in range(MAX_ITERATION):
+        skip_step = _get_skip_step(iteration)
+        bucket_id = _get_random_bucket(train_buckets_scale)
+        encoder_inputs, decoder_inputs, decoder_masks = get_batch(data_buckets[bucket_id],
+                                                                          bucket_id,
+                                                                          batch_size=BATCH_SIZE)
+
+        _, step_loss, _ = run_step(sess, self, encoder_inputs, decoder_inputs, decoder_masks, bucket_id, False)
+        total_loss += step_loss
+        iteration += 1
+
+        if iteration % skip_step == 0:
+            print('Iter {}: loss {}'.format(iteration, total_loss / skip_step))
+
+            total_loss = 0
+        saver.save(('chatbot'), global_step=self.global_step)
+
+        saver.save(('chatbot'), global_step=self.global_step)
+        sys.stdout.flush()
+
 def chat():
     _, enc_vocab = load_vocab('vocab.enc')
     inv_dec_vocab, _ = load_vocab('vocab.dec')
@@ -506,8 +536,8 @@ def chat():
               sys.stdout.buffer.write(response.encode('utf8'))
 
 def _load_test_data():
-    eng_test_ids = load_test_data('tst2012.en.txt')
-    vit_test_ids = load_test_data('tst2012.vi.txt')
+    eng_test_ids = load_test_data('tst2013.en.txt')
+    vit_test_ids = load_test_data('tst2013.vi.txt')
     return eng_test_ids,vit_test_ids
 
 def load_test_data(filename, max_training_size=None):
@@ -576,14 +606,6 @@ def _check_restore_parameters(sess, saver):
 
 
 import tensorflow as tf
-ckpt = tf.train.get_checkpoint_state('model')
-print(ckpt)
-
-
-############################################
-########Your main Function here#############
-
-#process_data()
 if sys.argv[1] == "train":
     train()
 elif sys.argv[1] == "test":
